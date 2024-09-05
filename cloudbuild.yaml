@@ -10,8 +10,8 @@ steps:
   - 'deployment/hello-server'
   - 'hello-app=us-east1-docker.pkg.dev/$PROJECT_ID/datalab2/hello-world:$SHORT_SHA'
   env:
-  - 'CLOUDSDK_COMPUTE_ZONE=us-central1-a'  # Update to your region
-  - 'CLOUDSDK_CONTAINER_CLUSTER=my-cluster'  # Update to your GKE cluster name
+  - 'CLOUDSDK_COMPUTE_ZONE=us-east1-b'
+  - 'CLOUDSDK_CONTAINER_CLUSTER=cluster-1'
 images:
 - 'us-east1-docker.pkg.dev/resounding-rune-428908-p8/datalab2/hello-world:$SHORT_SHA'
 options:
