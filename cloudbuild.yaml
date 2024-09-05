@@ -1,0 +1,7 @@
+steps:
+- name: 'gcr.io/cloud-builders/docker'
+  args: [ 'build', '-t', 'us-east1-docker.pkg.dev/resounding-rune-428908-p8/datalab2/hello-world:latest', '.' ]
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['push', 'us-east1-docker.pkg.dev/resounding-rune-428908-p8/datalab2/hello-world:latest']
+images:
+- 'us-east1-docker.pkg.dev/resounding-rune-428908-p8/datalab2/hello-world:latest'
