@@ -10,6 +10,6 @@ ENV DB_NAME="postgres"
 ENV DB_USER="postgres"
 ENV DB_PASSWORD="5`5d7V.t.#:hu/fn"
 
-CMD cloud_sql_proxy --private-ip resounding-rune-428908-p8:us-east1:sql-instance & \
+CMD /app/cloud-sql-proxy --private-ip resounding-rune-428908-p8:us-east1:sql-instance & \
     python3 app.py
 

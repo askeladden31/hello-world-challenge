@@ -10,25 +10,26 @@ class HelloWorldHandler(BaseHTTPRequestHandler):
         self.end_headers()
         self.wfile.write(b"Hello, World!\n")
 
-	connection = None
+        connection = None
 
-	try:
-        	connection = psycopg2.connect(
-          	host="127.0.0.1",
-            	port=5432,
-            	dbname=os.getenv('DB_NAME', 'postgres'),
-            	user=os.getenv('DB_USER', 'postgres'),
-            	password=os.getenv('DB_PASSWORD', 'your-password')
-        	)
-        	self.wfile.write(b"Connected to the database successfully!\n")
+        try:
+            connection = psycopg2.connect(
+            host="127.0.0.1",
+            port=5432,
+            dbname=os.getenv('DB_NAME', 'postgres'),
+            user=os.getenv('DB_USER', 'postgres'),
+            password=os.getenv('DB_PASSWORD', 'your-password')
+            )
 
-    	except Exception as e:
-        	error_message = f"Error connecting to the database: {e}"
-            	self.wfile.write(error_message.encode('utf-8'))
+            self.wfile.write(b"Connected to the database successfully!\n")
 
-	finally:
-		if connection:
-			connection.close()
+        except Exception as e:
+            error_message = f"Error connecting to the database: {e}"
+            self.wfile.write(error_message.encode('utf-8'))
+
+        finally:
+            if connection:
+                connection.close()
 
 def run(server_class=HTTPServer, handler_class=HelloWorldHandler):
     server_address = ('', 8080)
