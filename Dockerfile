@@ -1,15 +1,15 @@
-# Use a lightweight Python image
-FROM python:3.9-alpine
+FROM python:3.9-slim
 
-# Set the working directory
 WORKDIR /app
 
-# Copy the Python script into the container
-COPY app.py /app/
+COPY app.py cloud-sql-proxy .
 
-# Expose port 8080 to the outside world
-EXPOSE 8080
+RUN pip install psycopg2
 
-# Run the Python web server
-CMD ["python", "app.py"]
+ENV DB_NAME="postgres"
+ENV DB_USER="postgres"
+ENV DB_PASSWORD="5`5d7V.t.#:hu/fn"
+
+CMD cloud_sql_proxy --private-ip resounding-rune-428908-p8:us-east1:sql-instance & \
+    python3 app.py
 
