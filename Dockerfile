@@ -4,7 +4,7 @@ WORKDIR /app
 
 COPY app.py cloud-sql-proxy ./
 
-RUN pip install psycopg2
+RUN pip install psycopg2-binary
 
 ENV DB_NAME="postgres"
 ENV DB_USER="postgres"
