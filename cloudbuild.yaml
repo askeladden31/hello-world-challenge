@@ -8,14 +8,14 @@ steps:
   args:
     - '-c'
     - |
-      DB_PASSWORD=$(gcloud secrets versions access latest --secret="db-password")
-      echo "DB_PASSWORD=$DB_PASSWORD" > /workspace/db.env
+      DB_PASSWORD1=$(gcloud secrets versions access latest --secret="db-password")
+      echo "DB_PASSWORD1=$DB_PASSWORD1" > /workspace/db.env
 - name: flyway/flyway:8.0
   entrypoint: flyway
   args:
     - -url=jdbc:postgresql://127.0.0.1:5432/postgres
     - -user=postgres
-    - -password=$(cat /workspace/db.env | grep DB_PASSWORD | cut -d= -f2)
+    - -password=$(cat /workspace/db.env | grep DB_PASSWORD1 | cut -d= -f2)
     - -locations=filesystem:/workspace/sql
     - migrate
 - name: 'gcr.io/cloud-builders/docker'
