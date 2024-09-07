@@ -17,17 +17,30 @@ spec:
         image: us-east1-docker.pkg.dev/resounding-rune-428908-p8/datalab2/hello-world:latest
         env:
         - name: DB_NAME
-          valueFrom:
-            secretKeyRef:
-              name: db-secret
-              key: database
+          value: postgres
         - name: DB_USER
-          valueFrom:
-            secretKeyRef:
-              name: db-secret
-              key: username
+          value: postgres
         - name: DB_PASSWORD
           valueFrom:
             secretKeyRef:
               name: db-secret
               key: password
+      volumes:
+      - name: secret-vol
+        csi:
+          driver: secrets-store.csi.k8s.io
+          readOnly: true
+          volumeAttributes:
+            secretProviderClass: "gcp-secret-store"
+---
+apiVersion: secrets-store.csi.x-k8s.io/v1
+kind: SecretProviderClass
+metadata:
+  name: gcp-secret-store
+  namespace: default
+spec:
+  provider: gke
+  parameters:
+    secrets: |
+      - resourceName: "projects/resounding-rune-428908-p8/secrets/db-password"
+        versions: "latest"
