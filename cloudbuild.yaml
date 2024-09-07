@@ -8,8 +8,8 @@ steps:
   args:
     - '-c'
     - |
-      DB_PASSWORD1=$(gcloud secrets versions access latest --secret="db-password")
-      echo "DB_PASSWORD1=$DB_PASSWORD1" > /workspace/db.env
+      DB_PASSWORD=$(gcloud secrets versions access latest --secret="db-password")
+      echo "DB_PASSWORD1=$DB_PASSWORD" > /workspace/db.env
 - name: flyway/flyway:8.0
   entrypoint: flyway
   args:
