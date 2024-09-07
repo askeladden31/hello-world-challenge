@@ -1,11 +1,4 @@
 steps:
-- name: gcr.io/cloudsql-docker/gce-proxy:1.19.1
-  entrypoint: /bin/sh
-  args:
-    - '-c'
-    - |
-      /cloud_sql_proxy --instances=resounding-rune-428908-p8:us-east1:sql-instance=tcp:5432 &  # Run in the background
-      sleep 5  # Give the proxy some time to start
 - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk:slim'
   entrypoint: /bin/sh
   args:
@@ -16,7 +9,7 @@ steps:
 - name: flyway/flyway:8.0
   entrypoint: flyway
   args:
-    - -url=jdbc:postgresql://127.0.0.1:5432/postgres
+    - -url=jdbc:postgresql://34.75.44.131:5432/postgres
     - -user=postgres
     - -password=$(cat /workspace/db.env | grep DB_PASSWORD | cut -d= -f2)
     - -locations=filesystem:/workspace/sql
