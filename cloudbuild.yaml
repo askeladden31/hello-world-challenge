@@ -1,4 +1,25 @@
 steps:
+- name: gcr.io/cloudsql-docker/gce-proxy:1.19.1
+  entrypoint: /cloud_sql_proxy
+  args:
+    - '--instances=resounding-rune-428908-p8:us-east1:sql-instance=tcp:5432'
+- name: 'gcr.io/google.com/cloudsdktool/cloud-sdk:slim'
+  entrypoint: /bin/sh
+  args:
+    - '-c'
+    - |
+      DB_PASSWORD=$(gcloud secrets versions access latest --secret="db-password")
+      echo "DB_PASSWORD=$DB_PASSWORD" > /workspace/db.env
+- name: flyway/flyway:8.0
+  entrypoint: flyway
+  args:
+    - -url=jdbc:postgresql://127.0.0.1:5432/postgres
+    - -user=postgres
+    - -password=${_DB_PASSWORD}
+    - -locations=filesystem:/workspace/sql
+    - migrate
+  env:
+    - 'DB_PASSWORD=$(cat /workspace/db.env | grep DB_PASSWORD | cut -d= -f2)'
 - name: 'gcr.io/cloud-builders/docker'
   args: [ 'build', '-t', 'us-east1-docker.pkg.dev/resounding-rune-428908-p8/datalab2/hello-world:$SHORT_SHA', '.' ]
 - name: 'gcr.io/cloud-builders/docker'
