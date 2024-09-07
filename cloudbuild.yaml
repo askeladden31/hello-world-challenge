@@ -1,8 +1,11 @@
 steps:
 - name: gcr.io/cloudsql-docker/gce-proxy:1.19.1
-  entrypoint: /cloud_sql_proxy
+  entrypoint: /bin/sh
   args:
-    - '--instances=resounding-rune-428908-p8:us-east1:sql-instance=tcp:5432'
+    - '-c'
+    - |
+      /cloud_sql_proxy --instances=<PROJECT_ID>:<REGION>:<CLOUD_SQL_INSTANCE_ID>=tcp:5432 &  # Run in the background
+      sleep 5  # Give the proxy some time to start
 - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk:slim'
   entrypoint: /bin/sh
   args:
