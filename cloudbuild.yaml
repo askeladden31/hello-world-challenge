@@ -15,7 +15,7 @@ steps:
   args:
     - -url=jdbc:postgresql://127.0.0.1:5432/postgres
     - -user=postgres
-    - -password=${_DB_PASSWORD}
+    - -password=${DB_PASSWORD}
     - -locations=filesystem:/workspace/sql
     - migrate
   env:
