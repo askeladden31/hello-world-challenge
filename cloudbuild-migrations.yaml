@@ -1,0 +1,16 @@
+steps:
+  # Run Flyway migrations using the custom Docker image
+  - name: 'us-east1-docker.pkg.dev/resounding-rune-428908-p8/datalab2/proxy-migration-image'
+    env:
+      - 'INSTANCE_CONNECTION_NAME=resounding-rune-428908-p8:us-east1:sql-instance'
+      - 'DATABASE_NAME=postgres'
+      - 'DATABASE_USER=postgres'
+    secretEnv:
+      - DATABASE_PASS
+    # This assumes your migrations are inside the image
+    args: []
+
+availableSecrets:
+  secretManager:
+    - versionName: projects/resounding-rune-428908-p8/secrets/db-password/versions/latest
+      env: DATABASE_PASS
